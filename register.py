@@ -8,7 +8,7 @@ def SignUp():
     temp = db_query(f"SELECT username FROM customers where username = '{username}';")
     if temp:
         print("Username Already Exists")
-        SignUp()
+        return SignUp()
     else:
         print("Username is Available Please Proceed")
         password = input("Enter Your Password: ")
@@ -23,10 +23,10 @@ def SignUp():
             else:
                 print("Your Account Number",account_number)
                 break
-    cobj = Customer(username, password, name, age, city, account_number)
-    cobj.createuser()
-    bobj = Bank(username, account_number)
-    bobj.create_transaction_table()
+        cobj = Customer(username, password, name, age, city, account_number)
+        cobj.createuser()
+        bobj = Bank(username, account_number)
+        bobj.create_transaction_table()
 
 def SignIn():
     attempts = 0
@@ -37,15 +37,19 @@ def SignIn():
         temp = db_query(f"SELECT username FROM customers WHERE username = '{username}';")
 
         if temp:
-            while True:
+            password_attempts = 3
+            while password_attempts > 0:
                 password = input(f"Welcome {username.capitalize()} Enter Password: ")
                 temp = db_query(f"SELECT password FROM customers WHERE username = '{username}';")
                 if temp[0][0] == password:
                     print("Signed In Successfully")
                     return username
                 else:
-                    print("Wrong Password, Try Again")
-                    continue
+                    password_attempts -= 1
+                    print(f"Wrong Password. Attempts left: {password_attempts}")
+                    
+            print("Too many wrong password attempts.")
+            return None
         else:
             attempts += 1
             remaining = max_attempts - attempts

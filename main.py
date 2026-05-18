@@ -25,6 +25,8 @@ while True:
 
 account_number = db_query(
     f"SELECT account_number FROM customers WHERE username = '{user}';")
+bobj = Bank(user, account_number[0][0])
+bobj.create_transaction_table()
 
 while status:
     print(f"Welcome {user.capitalize()} Choose Your Banking Service\n")
@@ -35,8 +37,9 @@ while status:
                              "4. Fund Transfer\n"
                              "5. Find Account Number\n"
                              "6. Exit\n "
+                            #  "7. delete account\n-->"
                              ))
-        if facility >= 1 and facility <= 6:
+        if facility >= 1 and facility <= 7:
             if facility == 1:
                 bobj = Bank(user, account_number[0][0])
                 bobj.balanceequiry()
@@ -45,6 +48,7 @@ while status:
                     try:
                         amount = int(input("Enter Amount to Deposit"))
                         bobj = Bank(user, account_number[0][0])
+                        bobj.create_transaction_table()
                         bobj.deposit(amount)
                         mydb.commit()
                         break
@@ -81,6 +85,12 @@ while status:
             elif facility == 6:
                 print("Thanks For Using Banking Services")
                 status = False
+            
+            elif facility == 7:
+                bobj = Bank(user, account_number[0][0])
+                bobj.delete_account()
+                status = False
+
             
         else:
             print("Please Enter Valid Input From Options")
