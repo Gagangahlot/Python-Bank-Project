@@ -9,11 +9,11 @@ class Bank:
         self.__account_number = account_number
 
     def create_transaction_table(self):
-        db_query(f"CREATE TABLE IF NOT EXISTS {self.__username}_transaction "
-                 f"( timedate VARCHAR(30),"
-                 f"account_number INTEGER,"
-                 f"remarks VARCHAR(30),"
-                 f"amount INTEGER )")
+        db_query(f"CREATE TABLE IF NOT EXISTS `{self.__username}_transaction` "
+             f"( timedate VARCHAR(30),"
+             f"account_number INTEGER,"
+             f"remarks VARCHAR(30),"
+             f"amount INTEGER )")
 
     def balanceequiry(self):
         temp = db_query(
@@ -88,3 +88,12 @@ class Bank:
                          f")")
                 print(
                     f"{self.__username} Amount is Sucessfully Transaction from Your Account {self.__account_number}")
+    
+    def find_account(self):
+        search = input("Enter Username to Find Account Number: ")
+        temp = db_query(
+            f"SELECT account_number FROM customers WHERE username = '{search}';")
+        if temp:
+            print(f"Account Number of {search.capitalize()} is {temp[0][0]}")
+        else:
+            print(f"No User Found with Username '{search}'")

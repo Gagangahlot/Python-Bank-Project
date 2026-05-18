@@ -3,7 +3,7 @@ from bank import *
 
 status = False
 print("Welcome to our Banking Project")
-# ✅ REPLACE WITH THIS
+
 while True:
     try:
         register = int(input("1. SignUp\n"
@@ -12,11 +12,11 @@ while True:
             SignUp()
         elif register == 2:
             user = SignIn()
-            if user:              # None means 2 failed attempts
+            if user:            
                 status = True
                 break
             else:
-                continue          # loops back to SignUp/SignIn menu
+                continue         
         else:
             print("Please Enter Valid Input From Options")
 
@@ -33,9 +33,10 @@ while status:
                              "2. Cash Deposit\n"
                              "3. Cash Withdraw\n"
                              "4. Fund Transfer\n"
-                             "5. Exit\n "
+                             "5. Find Account Number\n"
+                             "6. Exit\n "
                              ))
-        if facility >= 1 and facility <= 5:
+        if facility >= 1 and facility <= 6:
             if facility == 1:
                 bobj = Bank(user, account_number[0][0])
                 bobj.balanceequiry()
@@ -75,8 +76,12 @@ while status:
                         print("Enter Valid Input ie. Number")
                         continue
             elif facility == 5:
+                bobj = Bank(user, account_number[0][0])
+                bobj.find_account()        
+            elif facility == 6:
                 print("Thanks For Using Banking Services")
                 status = False
+            
         else:
             print("Please Enter Valid Input From Options")
             continue
