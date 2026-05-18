@@ -1,5 +1,5 @@
 #Database Management Banking
-import mysql.connector as sql  
+import mysql.connector as sql  # type: ignore
 
 mydb = sql.connect(
             host="localhost",

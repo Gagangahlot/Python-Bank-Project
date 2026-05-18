@@ -2,18 +2,21 @@ from register import *
 from bank import *
 
 status = False
-print("Welcome to Mohit Banking Project")
+print("Welcome to our Banking Project")
+# ✅ REPLACE WITH THIS
 while True:
     try:
         register = int(input("1. SignUp\n"
-                             "2. SignIn"))
-        if register == 1 or register == 2:
-            if register == 1:
-                SignUp()
-            if register == 2:
-                user = SignIn()
+                             "2. SignIn-->"))
+        if register == 1:
+            SignUp()
+        elif register == 2:
+            user = SignIn()
+            if user:              # None means 2 failed attempts
                 status = True
                 break
+            else:
+                continue          # loops back to SignUp/SignIn menu
         else:
             print("Please Enter Valid Input From Options")
 

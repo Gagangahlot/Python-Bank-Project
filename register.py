@@ -27,20 +27,31 @@ def SignUp():
     cobj.createuser()
     bobj = Bank(username, account_number)
     bobj.create_transaction_table()
+
 def SignIn():
-    username = input("Enter Username: ")
-    temp = db_query(f"SELECT username FROM customers where username = '{username}';")
-    if temp:
-        while True:
-            password = input(f"Welcome {username.capitalize()} Enter Password: ")
-            temp = db_query(f"SELECT password FROM customers where username = '{username}';")
-            # print(temp[0][0])
-            if temp[0][0] == password:
-                print("Sign IN Succesfully")
-                return username
+    attempts = 0
+    max_attempts = 2
+
+    while attempts < max_attempts:
+        username = input("Enter Username: ")
+        temp = db_query(f"SELECT username FROM customers WHERE username = '{username}';")
+
+        if temp:
+            while True:
+                password = input(f"Welcome {username.capitalize()} Enter Password: ")
+                temp = db_query(f"SELECT password FROM customers WHERE username = '{username}';")
+                if temp[0][0] == password:
+                    print("Signed In Successfully")
+                    return username
+                else:
+                    print("Wrong Password, Try Again")
+                    continue
+        else:
+            attempts += 1
+            remaining = max_attempts - attempts
+            if remaining > 0:
+                print(f"Username not found. {remaining} attempt(s) remaining.")
             else:
-                print("Wrong Password Try Again")
-                continue
-    else:
-        print("Enter Correct Username")
-        SignIn()
+                print("Too many failed attempts. Redirecting to main menu...\n")
+
+    return None  # Signal that sign-in failed
